@@ -70,9 +70,9 @@ const sessionOptions = {
     },
 };
 
-// app.get("/", (req, res) => {
-//     res.send("Hi I am root")
-// })
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -91,14 +91,7 @@ app.use((req,res,next)=>{
     next();
 })
 
-// app.get("/demouser", async (req,res)=>{
-//     let fakeUser= new User  ({
-//         email: "student@gmail.com",
-//         username:"student"
-//     });
-//     let registeredUser = await User.register(fakeUser, "helloworld")
-//     res.send(registeredUser);
-// })
+
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
@@ -118,7 +111,7 @@ app.use((err, req, res, next) => {
 
     res.status(statusCode).render("error.ejs", { message });
 });
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}/listings`);
 });
